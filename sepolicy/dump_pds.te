@@ -1,4 +1,4 @@
-type dump_pds, domain;
+type dump_pds, domain, domain_deprecated;
 type dump_pds_exec, exec_type, file_type;
 init_daemon_domain(dump_pds)
 
