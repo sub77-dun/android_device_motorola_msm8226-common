@@ -153,24 +153,24 @@ static char *camera_fixup_getparams(int id, const char *settings)
         params.set(CameraParameters::KEY_SUPPORTED_FLASH_MODES, "auto,on,off,torch");
     }
 
-    params.set(CameraParameters::KEY_QC_SUPPORTED_DENOISE, "denoise-on,denoise-off");
-    params.set(CameraParameters::KEY_QC_SUPPORTED_FACE_DETECTION, "on,off");
-    params.set(CameraParameters::KEY_QC_SUPPORTED_REDEYE_REDUCTION, "enable,disable");
+    params.set("denoise-values", "denoise-on,denoise-off");
+    params.set("face-detection-values", "on,off");
+    params.set("redeye-reduction-values", "enable,disable");
 
     if (get_product_device() == FALCON || get_product_device() == PEREGRINE) {
         if (id == BACK_CAMERA) {
-            params.set(CameraParameters::KEY_QC_SUPPORTED_HFR_SIZES, "1296x728");
-            params.set(CameraParameters::KEY_QC_SUPPORTED_VIDEO_HIGH_FRAME_RATE_MODES, "60,off");
+            params.set("hfr-size-values", "1296x728");
+            params.set("video-hfr-values", "60,off");
         }
     } else {
-        params.set(CameraParameters::KEY_QC_SUPPORTED_HFR_SIZES, "1296x728,1296x728,720x480");
-        params.set(CameraParameters::KEY_QC_SUPPORTED_VIDEO_HIGH_FRAME_RATE_MODES, "60,90,120,off");
-        params.set(CameraParameters::KEY_QC_SUPPORTED_ZSL_MODES, "on,off");
+        params.set("hfr-size-values", "1296x728,1296x728,720x480");
+        params.set("video-hfr-values", "60,90,120,off");
+        params.set("zsl-values", "on,off");
     }
 
     if (!(get_product_device() == FALCON || get_product_device() == PEREGRINE) ||
             id == BACK_CAMERA) {
-        params.set(CameraParameters::KEY_QC_SUPPORTED_TOUCH_AF_AEC, "touch-on,touch-off");
+        params.set("touch-af-aec-values", "touch-on,touch-off");
         params.set(CameraParameters::KEY_SUPPORTED_SCENE_MODES,
                 "auto,action,portrait,landscape,night,night-portrait,theatre"
                 "candlelight,beach,snow,sunset,steadyphoto,fireworks,sports,party,"
@@ -180,7 +180,7 @@ static char *camera_fixup_getparams(int id, const char *settings)
     /* HFR video recording workaround */
     const char *recordingHint = params.get(CameraParameters::KEY_RECORDING_HINT);
     if (recordingHint && !strcmp(recordingHint, "true")) {
-        params.set(CameraParameters::KEY_QC_VIDEO_HIGH_FRAME_RATE, videoHfr);
+        params.set("video-hfr-values", videoHfr);
     }
 
 #if !LOG_NDEBUG
@@ -209,14 +209,14 @@ static char *camera_fixup_setparams(int id, const char *settings)
      * vendor call, unless the Motorola camera app is used. Save the value
      * so that we can later return it.
      */
-    const char *hfr = params.get(CameraParameters::KEY_QC_VIDEO_HIGH_FRAME_RATE);
+    const char *hfr = params.get("video-hfr-values");
     snprintf(videoHfr, sizeof(videoHfr), "%s", hfr ? hfr : "off");
 
     if (get_product_device() == TITAN || get_product_device() == THEA) {
         const char *sceneMode = params.get(CameraParameters::KEY_SCENE_MODE);
         if (sceneMode != NULL) {
             if (!strcmp(sceneMode, CameraParameters::SCENE_MODE_HDR)) {
-                params.remove(CameraParameters::KEY_QC_ZSL);
+                params.remove("zsl");
             }
         }
     }
