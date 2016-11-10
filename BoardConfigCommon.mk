@@ -102,9 +102,6 @@ TARGET_SYSTEM_PROP += $(VENDOR_PATH)/system.prop
 # Qualcomm support
 BOARD_USES_QCOM_HARDWARE := true
 
-# Radio
-TARGET_RIL_VARIANT := caf
-
 # Recovery
 BOARD_NO_SECURE_DISCARD := true
 TARGET_NOT_USE_GZIP_RECOVERY_RAMDISK := true

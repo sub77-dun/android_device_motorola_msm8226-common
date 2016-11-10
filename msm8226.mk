@@ -87,6 +87,10 @@ PRODUCT_PACKAGES += \
     camera.msm8226 \
     Snap
 
+# MotoActions
+PRODUCT_PACKAGES += \
+    MotoActions
+
 # Display
 PRODUCT_PACKAGES += \
     copybit.msm8226 \
